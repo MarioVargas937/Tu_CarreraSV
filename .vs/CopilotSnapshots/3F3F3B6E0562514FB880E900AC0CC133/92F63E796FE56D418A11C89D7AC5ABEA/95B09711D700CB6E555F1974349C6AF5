@@ -1,0 +1,443 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace TuCarreraSV
+{
+    internal static class Program
+    {
+        static void Main()
+        {
+            Console.Title = "IceFriohielo - El juego más perrón";
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.CursorVisible = false;
+            var game = new Game();
+            game.Run();
+        }
+    }
+
+    class Game
+    {
+        Player player = new Player();
+        Random rnd = new Random();
+
+        public void Run()
+        {
+            ShowIntro().Wait();
+            MainMenu();
+        }
+
+        async Task ShowIntro()
+        {
+            var title = new[] {
+                "██╗███╗   ██╗ ██████╗ ████████╗███████╗██████╗ ██╗███████╗",
+                "██║████╗  ██║██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗██║██╔════╝",
+                "██║██╔██╗ ██║██║   ██║   ██║   █████╗  ██████╔╝██║█████╗  ",
+                "██║██║╚██╗██║██║   ██║   ██║   ██╔══╝  ██╔══██╗██║██╔══╝  ",
+                "██║██║ ╚████║╚██████╔╝   ██║   ███████╗██║  ██║██║███████╗",
+                "╚═╝╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚══════╝"
+            };
+
+            Console.Clear();
+            for (int i = 0; i < title.Length; i++)
+            {
+                Console.ForegroundColor = (ConsoleColor)(i % 6 + 9);
+                CenterWriteLine(title[i]);
+                await Task.Delay(120);
+            }
+
+            Console.ResetColor();
+            CenterWriteLine("Un juego de consola para dejar a tus cheros ICEFRIOHIELO 🤯");
+            await Task.Delay(900);
+            BeepMelody();
+            await Task.Delay(400);
+        }
+
+        void MainMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                CenterWriteLine("-- MENÚ PRINCIPAL --\n");
+                Console.WriteLine("1) Nuevo juego");
+                Console.WriteLine("2) Continuar (no implementado)");
+                Console.WriteLine("3) Instrucciones");
+                Console.WriteLine("4) Salir");
+                Console.Write("Elige una opción: ");
+                var k = Console.ReadKey(true).KeyChar;
+                if (k == '1') { StartNewGame(); break; }
+                if (k == '3') { ShowInstructions(); }
+                if (k == '4') { Goodbye(); break; }
+            }
+        }
+
+        void ShowInstructions()
+        {
+            Console.Clear();
+            Console.WriteLine("Instrucciones:\n");
+            Console.WriteLine("- Te moverás con las teclas W A S D (o flechas)");
+            Console.WriteLine("- Encuentra enemigos, objetos y sube de nivel");
+            Console.WriteLine("- Presiona cualquier tecla para volver");
+            Console.ReadKey(true);
+        }
+
+        void StartNewGame()
+        {
+            player = Player.CreateStarter(rnd);
+            var map = new Map(25, 12, rnd);
+            while (true)
+            {
+                Console.Clear();
+                map.Draw(player);
+                DrawHud();
+                var input = ReadMovement();
+                if (input == ActionCommand.Quit) { Goodbye(); break; }
+                if (input == ActionCommand.None) continue;
+                player.Move(input, map.Width, map.Height);
+                var cell = map.GetCell(player.X, player.Y);
+                if (cell.HasEnemy)
+                {
+                    var enemy = Enemy.Generate(rnd, player.Level);
+                    Combat(enemy);
+                    map.ClearCell(player.X, player.Y);
+                    if (!player.IsAlive) { GameOver(); break; }
+                }
+                else if (cell.HasItem)
+                {
+                    player.GainItem(cell.Item);
+                    map.ClearCell(player.X, player.Y);
+                }
+                else if (rnd.NextDouble() < 0.06)
+                {
+                    // random event
+                    var found = rnd.Next(2) == 0;
+                    if (found)
+                    {
+                        var gold = rnd.Next(5, 21);
+                        player.Gold += gold;
+                        Popup($"Encontraste {gold} monedas! 💰");
+                    }
+                }
+            }
+        }
+
+        void Combat(Enemy enemy)
+        {
+            Popup($"¡Te topaste con {enemy.Name}! Prepárate para pelear.");
+            while (player.IsAlive && enemy.IsAlive)
+            {
+                Console.Clear();
+                DrawCombatHud(enemy);
+                Console.WriteLine("Elige acción: (A)ttacar  (H)eal  (R)un");
+                var key = Console.ReadKey(true).KeyChar;
+                if (key == 'a' || key == 'A')
+                {
+                    int dmg = player.AttackRoll();
+                    enemy.Damage(dmg);
+                    Popup($"Le haces {dmg} de daño a {enemy.Name}");
+                }
+                else if (key == 'h' || key == 'H')
+                {
+                    int heal = player.Heal();
+                    Popup($"Te curaste {heal} puntos.");
+                }
+                else if (key == 'r' || key == 'R')
+                {
+                    if (rnd.NextDouble() < 0.5)
+                    {
+                        Popup("Escapaste con éxito!");
+                        return;
+                    }
+                    else Popup("No pudiste escapar");
+                }
+
+                if (enemy.IsAlive)
+                {
+                    int dmg = enemy.AttackRoll();
+                    player.Damage(dmg);
+                    Popup($"{enemy.Name} te infligió {dmg} daño.");
+                }
+            }
+
+            if (player.IsAlive)
+            {
+                int xp = enemy.Level * 10 + rnd.Next(5, 16);
+                player.GainXp(xp);
+                player.Gold += enemy.Level * rnd.Next(3, 8);
+                Popup($"Derrotaste a {enemy.Name}! +{xp} xp.");
+            }
+            else
+            {
+                Popup("Has muerto...");
+            }
+        }
+
+        void DrawHud()
+        {
+            Console.SetCursorPosition(0, 13);
+            Console.WriteLine($"Jugador: {player.Name}  Nivel:{player.Level}  HP:{player.HP}/{player.MaxHP}  XP:{player.XP}/{player.XPToLevel}  Oro:{player.Gold}");
+            Console.WriteLine($"Inventario: {string.Join(", ", player.Inventory.Select(i => i.Name))}");
+        }
+
+        void DrawCombatHud(Enemy e)
+        {
+            Console.WriteLine($"-- COMBATE --\n{player.Name}  HP:{player.HP}/{player.MaxHP}  Nivel:{player.Level}");
+            Console.WriteLine($"VS {e.Name}  HP:{e.HP}/{e.MaxHP}  Nivel:{e.Level}\n");
+        }
+
+        void Popup(string text)
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"==> {text}");
+            Console.ResetColor();
+            Thread.Sleep(650);
+        }
+
+        void GameOver()
+        {
+            Console.Clear();
+            CenterWriteLine("███████╗ █████╗ ███╗   ███╗███████╗");
+            CenterWriteLine("██╔════╝██╔══██╗████╗ ████║██╔════╝");
+            CenterWriteLine("█████╗  ███████║██╔████╔██║█████╗  ");
+            CenterWriteLine("██╔══╝  ██╔══██║██║╚██╔╝██║██╔══╝  ");
+            CenterWriteLine("██║     ██║  ██║██║ ╚═╝ ██║███████╗");
+            CenterWriteLine("╚═╝     ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝");
+            CenterWriteLine("\nTu viaje terminó. Pulsa una tecla para volver al menú.");
+            Console.ReadKey(true);
+            MainMenu();
+        }
+
+        void Goodbye()
+        {
+            Console.Clear();
+            CenterWriteLine("Gracias por jugar. ¡Sorprende a tus cheros!");
+            Console.CursorVisible = true;
+            Thread.Sleep(800);
+            Environment.Exit(0);
+        }
+
+        ActionCommand ReadMovement()
+        {
+            var key = Console.ReadKey(true).Key;
+            return key switch
+            {
+                ConsoleKey.W => ActionCommand.Up,
+                ConsoleKey.UpArrow => ActionCommand.Up,
+                ConsoleKey.S => ActionCommand.Down,
+                ConsoleKey.DownArrow => ActionCommand.Down,
+                ConsoleKey.A => ActionCommand.Left,
+                ConsoleKey.LeftArrow => ActionCommand.Left,
+                ConsoleKey.D => ActionCommand.Right,
+                ConsoleKey.RightArrow => ActionCommand.Right,
+                ConsoleKey.Escape => ActionCommand.Quit,
+                _ => ActionCommand.None
+            };
+        }
+
+        void CenterWriteLine(string s)
+        {
+            int w = Console.WindowWidth;
+            int pad = Math.Max(0, (w - s.Length) / 2);
+            Console.WriteLine(new string(' ', pad) + s);
+        }
+
+        void BeepMelody()
+        {
+            try
+            {
+                Console.Beep(659, 120);
+                Console.Beep(523, 120);
+                Console.Beep(587, 120);
+                Console.Beep(523, 120);
+            }
+            catch { }
+        }
+    }
+
+    enum ActionCommand { None, Up, Down, Left, Right, Quit }
+
+    class Player
+    {
+        public string Name { get; private set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int HP { get; private set; }
+        public int MaxHP { get; private set; }
+        public int Level { get; private set; }
+        public int XP { get; private set; }
+        public int XPToLevel => Level * 50;
+        public int Gold { get; set; }
+        public List<Item> Inventory { get; } = new List<Item>();
+        Random rnd = new Random();
+
+        public bool IsAlive => HP > 0;
+
+        public static Player CreateStarter(Random rnd)
+        {
+            var p = new Player();
+            p.Name = "HeroeFrio";
+            p.Level = 1;
+            p.MaxHP = 30;
+            p.HP = p.MaxHP;
+            p.X = 2; p.Y = 2;
+            p.Gold = 0;
+            p.Inventory.Add(new Item("Poción pequeña", ItemType.Heal, 15));
+            return p;
+        }
+
+        public void Move(ActionCommand dir, int w, int h)
+        {
+            switch (dir)
+            {
+                case ActionCommand.Up: if (Y > 0) Y--; break;
+                case ActionCommand.Down: if (Y < h - 1) Y++; break;
+                case ActionCommand.Left: if (X > 0) X--; break;
+                case ActionCommand.Right: if (X < w - 1) X++; break;
+            }
+        }
+
+        public int AttackRoll() => rnd.Next(3, 8) + Level;
+
+        public int Heal()
+        {
+            var potion = Inventory.FirstOrDefault(i => i.Type == ItemType.Heal);
+            if (potion != null)
+            {
+                HP = Math.Min(MaxHP, HP + potion.Value);
+                Inventory.Remove(potion);
+                return potion.Value;
+            }
+            int amt = rnd.Next(1, 6);
+            HP = Math.Min(MaxHP, HP + amt);
+            return amt;
+        }
+
+        public void Damage(int d) { HP -= d; if (HP < 0) HP = 0; }
+
+        public void GainXp(int xp)
+        {
+            XP += xp;
+            while (XP >= XPToLevel)
+            {
+                XP -= XPToLevel;
+                Level++;
+                MaxHP += 6;
+                HP = MaxHP;
+            }
+        }
+
+        public void GainItem(Item item)
+        {
+            Inventory.Add(item);
+        }
+    }
+
+    class Enemy
+    {
+        public string Name { get; set; }
+        public int Level { get; set; }
+        public int HP { get; set; }
+        public int MaxHP { get; set; }
+        Random rnd = new Random();
+        public bool IsAlive => HP > 0;
+
+        public static Enemy Generate(Random rnd, int playerLevel)
+        {
+            var e = new Enemy();
+            e.Level = Math.Max(1, playerLevel + rnd.Next(-1, 2));
+            e.Name = new[] { "Lobo helado", "Espectro", "Bandido" }[rnd.Next(3)];
+            e.MaxHP = 8 + e.Level * 4 + rnd.Next(0, 5);
+            e.HP = e.MaxHP;
+            return e;
+        }
+
+        public int AttackRoll() => rnd.Next(2, 6) + Level;
+        public void Damage(int d) { HP -= d; if (HP < 0) HP = 0; }
+    }
+
+    enum ItemType { Heal, Buff, Weapon, Armor, Special }
+    class Item
+    {
+        public string Name { get; }
+        public ItemType Type { get; }
+        public int Value { get; }
+        public int AttackBonus { get; }
+        public int HPBonus { get; }
+        public int Price { get; }
+        public Item(string name, ItemType t, int v, int price = 0, int atk = 0, int hp = 0)
+        {
+            Name = name; Type = t; Value = v; Price = price; AttackBonus = atk; HPBonus = hp;
+        }
+        public override string ToString() => Name;
+    }
+
+    class Cell
+    {
+        public bool HasEnemy { get; set; }
+        public bool HasItem { get; set; }
+        public Item Item { get; set; }
+        public char Ch => HasEnemy ? 'E' : HasItem ? 'I' : '.';
+    }
+
+    class Map
+    {
+        public int Width { get; }
+        public int Height { get; }
+        Cell[,] cells;
+        Random rnd;
+
+        public Map(int w, int h, Random rnd)
+        {
+            Width = w; Height = h; this.rnd = rnd;
+            cells = new Cell[h, w];
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    cells[y, x] = new Cell();
+
+            // populate
+            for (int i = 0; i < (w * h) / 12; i++)
+            {
+                int x = rnd.Next(w), y = rnd.Next(h);
+                cells[y, x].HasEnemy = rnd.NextDouble() < 0.7;
+            }
+            for (int i = 0; i < (w * h) / 20; i++)
+            {
+                int x = rnd.Next(w), y = rnd.Next(h);
+                cells[y, x].HasItem = true;
+                cells[y, x].Item = new Item("Poción", ItemType.Heal, rnd.Next(8, 18));
+            }
+        }
+
+        public void Draw(Player p)
+        {
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    if (p.X == x && p.Y == y)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write('@');
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        var c = cells[y, x];
+                        if (c.HasEnemy) Console.ForegroundColor = ConsoleColor.Red;
+                        else if (c.HasItem) Console.ForegroundColor = ConsoleColor.Green;
+                        else Console.ResetColor();
+                        Console.Write(c.Ch);
+                        Console.ResetColor();
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public Cell GetCell(int x, int y) => cells[y, x];
+        public void ClearCell(int x, int y) { cells[y, x] = new Cell(); }
+    }
+}
