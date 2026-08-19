@@ -1,70 +1,145 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace TuCarreraSV
 {
     class Program
     {
+        // Usuario registrado como variable global
+        static Usuario? usuarioRegistrado = null;
+
         static void Main(string[] args)
         {
             Console.Clear();
             Console.Title = "TuCarreraSV";
-            Console.ReadKey();
-
             Console.WriteLine("Bienvenido a la plataforma de TuCarreraSV");
             Console.WriteLine("Esta plataforma te permite registrarte para comenzar a recibir viajes y ganar dinero");
-            Console.WriteLine("1. Registrarse\n 2. Iniciar sesión\n 3. Salir");
-            switch (int.TryParse(Console.ReadLine(), out int opcion) ? opcion : 0)
+
+            int opcion;
+            do
             {
-                case 1:
-                Console.WriteLine("Registrarse");
-                Console.WriteLine("Ingrese su nombre:");
-                string nombre = Console.ReadLine()!;
-                Console.WriteLine("Ingrese su usuario:");
-                string usuario = Console.ReadLine()!;
-                Console.WriteLine("Vuelva a ingresar su usuario:");
-                string usuarioConfirmacion = Console.ReadLine()!;
-                if (usuario != usuarioConfirmacion)
+                Console.WriteLine("\n=== Sistema de Inicio de Sesión ===");
+                Console.WriteLine("1. Registrar usuario");
+                Console.WriteLine("2. Iniciar sesión");
+                Console.WriteLine("3. Eliminar usuario");
+                Console.WriteLine("4. Mostrar usuario actual");
+                Console.WriteLine("0. Salir");
+                Console.Write("Elige una opción: ");
+
+                if (!int.TryParse(Console.ReadLine(), out opcion))
                 {
-                    Console.WriteLine("Los usuarios no coinciden");
-                    break;
+                    Console.WriteLine("Por favor ingresa un número válido.\n");
+                    continue;
                 }
-                break;
 
-                case 2:
-                Console.WriteLine("Iniciar sesión");
-                break;
+                switch (opcion)
+                {
+                    case 1:
+                     RegistrarUsuario();
+                      break;
+                    case 2: IniciarSesion(); break;
+                    case 3:
+                     EliminarUsuario();
+                     break;
+                    case 4:
+                     MostrarUsuario(); 
+                    break;
+                    case 0:
+                     Console.WriteLine("Saliendo del sistema...");
+                     System.Threading.Thread.Sleep(3000);
+                     break;
+                    default: Console.WriteLine("Opción inválida.\n"); break;
+                }
 
-                case 3:
-                Console.WriteLine("Salir");
-                break;
+            } while (opcion != 0);
+        }
+
+        static void RegistrarUsuario()
+        {
+            if (usuarioRegistrado != null)
+            {
+                Console.WriteLine("Ya existe un usuario registrado. Elimínalo antes de registrar uno nuevo.\n");
+                return;
             }
 
+            Console.Write("Correo: ");
+            string correo = Console.ReadLine()!;
+            Console.Write("Contraseña: ");
+            string password = Console.ReadLine()!;
+
+            usuarioRegistrado = new Usuario { Correo = correo, Password = password };
+            Console.WriteLine("Usuario registrado con éxito.\n");
         }
 
-
-        }
-
-        class Conductor
+        static void IniciarSesion()
         {
-            string nombre { get; set; }
-            int edad { get; set; }
-            string licencia { get; set; }
-            bool estadoLicencia { get; set; }
+            if (usuarioRegistrado == null)
+            {
+                Console.WriteLine("No hay usuario registrado. Registra uno primero.\n");
+                return;
+            }
 
-            Vehiculo vehiculo { get; set; }
+            Console.Write("Correo: ");
+            string correo = Console.ReadLine()!;
+            Console.Write("Contraseña: ");
+            string password = Console.ReadLine()!;
+
+            if (correo == usuarioRegistrado.Correo && password == usuarioRegistrado.Password)
+            {
+                Console.WriteLine("Inicio de sesión exitoso.\n");
+            }
+            else
+            {
+                Console.WriteLine("Credenciales incorrectas.\n");
+            }
         }
 
-        class Vehiculo
+        static void EliminarUsuario()
         {
-            string marca { get; set; }
-            string modelo { get; set; }
-            int anio { get; set; }
-            string color { get; set; }
-            string placa { get; set; }
+            if (usuarioRegistrado == null)
+            {
+                Console.WriteLine("No hay usuario registrado para eliminar.\n");
+                return;
+            }
+
+            usuarioRegistrado = null;
+            Console.WriteLine("Usuario eliminado con éxito.\n");
+        }
+
+        static void MostrarUsuario()
+        {
+            if (usuarioRegistrado == null)
+            {
+                Console.WriteLine("No hay usuario registrado.\n");
+            }
+            else
+            {
+                Console.WriteLine($"Usuario actual: {usuarioRegistrado.Correo}\n");
+            }
         }
     }
+
+    // Clases de dominio
+    class Usuario
+    {
+        public string? Correo { get; set; }
+        public string? Password { get; set; }
+    }
+
+    class Conductor
+    {
+        public string? Nombre { get; set; }
+        public int Edad { get; set; }
+        public string? Licencia { get; set; }
+        public bool EstadoLicencia { get; set; }
+        public Vehiculo? Vehiculo { get; set; }
+    }
+
+    class Vehiculo
+    {
+        public string? Marca { get; set; }
+        public string? Modelo { get; set; }
+        public int Anio { get; set; }
+        public string? Color { get; set; }
+        public string? Placa { get; set; }
+    }
+}

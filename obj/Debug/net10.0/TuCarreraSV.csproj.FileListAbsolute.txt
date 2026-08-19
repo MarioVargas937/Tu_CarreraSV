@@ -12,3 +12,4 @@ C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estruc
 C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\TUCARRERASV\TuCarreraSV\obj\Debug\net10.0\TuCarreraSV.pdb
 C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\TUCARRERASV\TuCarreraSV\obj\Debug\net10.0\TuCarreraSV.genruntimeconfig.cache
 C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\TUCARRERASV\TuCarreraSV\obj\Debug\net10.0\ref\TuCarreraSV.dll
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\TUCARRERASV\TuCarreraSV\obj\Debug\net10.0\TuCarreraSV.sourcelink.json
