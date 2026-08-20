@@ -28,3 +28,18 @@ C:/Users/morei/OneDrive/Documentos/Unicaes/2026/CICLO 2 2026/Programacion Estruc
 /home/elenyell/Escritorio/Universidad/Ciclo - 4/Programación Estructurada/Tu_CarreraSV/obj/Debug/net10.0/TuCarreraSV.pdb
 /home/elenyell/Escritorio/Universidad/Ciclo - 4/Programación Estructurada/Tu_CarreraSV/obj/Debug/net10.0/TuCarreraSV.genruntimeconfig.cache
 /home/elenyell/Escritorio/Universidad/Ciclo - 4/Programación Estructurada/Tu_CarreraSV/obj/Debug/net10.0/ref/TuCarreraSV.dll
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\bin\Debug\net10.0\TuCarreraSV.exe
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\bin\Debug\net10.0\TuCarreraSV.deps.json
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\bin\Debug\net10.0\TuCarreraSV.runtimeconfig.json
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\bin\Debug\net10.0\TuCarreraSV.dll
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\bin\Debug\net10.0\TuCarreraSV.pdb
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.AssemblyInfoInputs.cache
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.AssemblyInfo.cs
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.csproj.CoreCompileInputs.cache
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.sourcelink.json
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.dll
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\refint\TuCarreraSV.dll
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.pdb
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\TuCarreraSV.genruntimeconfig.cache
+C:\Users\morei\OneDrive\Documentos\Unicaes\2026\CICLO 2 2026\Programacion Estructurada\PERIODO 1\Tu_CarreraSV_clon\obj\Debug\net10.0\ref\TuCarreraSV.dll

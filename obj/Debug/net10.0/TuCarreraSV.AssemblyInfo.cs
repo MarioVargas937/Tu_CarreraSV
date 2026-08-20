@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TuCarreraSV")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09cbcb33afa8c10769d44ec088584a5f732cd4fc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d914a895bd5a6991162fb01522fa203d8a8ca36e")]
 [assembly: System.Reflection.AssemblyProductAttribute("TuCarreraSV")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TuCarreraSV")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

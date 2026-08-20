@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
     "net10.0": {}
   },
@@ -8,29 +8,35 @@
     "net10.0": []
   },
   "packageFolders": {
-    "/home/elenyell/.nuget/packages/": {}
+    "C:\\Users\\morei\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/elenyell/Escritorio/Universidad/Ciclo - 4/Programación Estructurada/Tu_CarreraSV/TuCarreraSV.csproj",
+      "projectUniqueName": "C:\\Users\\morei\\OneDrive\\Documentos\\Unicaes\\2026\\CICLO 2 2026\\Programacion Estructurada\\PERIODO 1\\Tu_CarreraSV_clon\\TuCarreraSV.csproj",
       "projectName": "TuCarreraSV",
-      "projectPath": "/home/elenyell/Escritorio/Universidad/Ciclo - 4/Programación Estructurada/Tu_CarreraSV/TuCarreraSV.csproj",
-      "packagesPath": "/home/elenyell/.nuget/packages/",
-      "outputPath": "/home/elenyell/Escritorio/Universidad/Ciclo - 4/Programación Estructurada/Tu_CarreraSV/obj/",
+      "projectPath": "C:\\Users\\morei\\OneDrive\\Documentos\\Unicaes\\2026\\CICLO 2 2026\\Programacion Estructurada\\PERIODO 1\\Tu_CarreraSV_clon\\TuCarreraSV.csproj",
+      "packagesPath": "C:\\Users\\morei\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\morei\\OneDrive\\Documentos\\Unicaes\\2026\\CICLO 2 2026\\Programacion Estructurada\\PERIODO 1\\Tu_CarreraSV_clon\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/elenyell/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\morei\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -45,11 +51,10 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.400"
+      "SdkAnalysisLevel": "11.0.100"
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "imports": [
           "net461",
@@ -62,12 +67,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[10.0.2, 10.0.2]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[10.0.2, 10.0.2]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[10.0.2, 10.0.2]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[10.0.2, 10.0.2]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\11.0.100-preview.1.26104.118/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

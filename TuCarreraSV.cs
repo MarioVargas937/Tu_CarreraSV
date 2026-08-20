@@ -58,56 +58,57 @@ namespace TuCarreraSV
                 {
                     case 1:
                         RegistrarUsuario();
-                    break;
-                    case 2: IniciarSesion();
-                    break;
+                        break;
+                    case 2:
+                        IniciarSesion();
+                        break;
                     case 3:
                         EliminarUsuario();
-                    break;
+                        break;
                     case 4:
-                        MostrarUsuario(); 
-                    break;
+                        MostrarUsuario();
+                        break;
                     case 5:
-                        RegistrarConductor(); 
-                    break;
+                        RegistrarConductor();
+                        break;
                     case 6:
-                        EliminarConductor(); 
-                    break;
+                        EliminarConductor();
+                        break;
                     case 7:
-                        MostrarConductor(); 
-                    break;
+                        MostrarConductor();
+                        break;
                     case 8:
-                        RegistrarVehiculo(); 
-                    break;
+                        RegistrarVehiculo();
+                        break;
                     case 9:
-                        MostrarVehiculos(); 
-                    break;
+                        MostrarVehiculos();
+                        break;
                     case 10:
-                        AsignarVehiculo(); 
-                    break;
+                        AsignarVehiculo();
+                        break;
                     case 11:
-                        RegistrarCiudad(); 
-                    break;
+                        RegistrarCiudad();
+                        break;
                     case 12:
-                        MostrarCiudades(); 
-                    break;
+                        MostrarCiudades();
+                        break;
                     case 13:
-                        MostrarInformacionCompleta(); 
-                    break;
+                        MostrarInformacionCompleta();
+                        break;
                     case 0:
                         Console.WriteLine("Saliendo del sistema...");
-                        System.Threading.Thread.Sleep(2000);
-                    break;
-                    default: 
+                        System.Threading.Thread.Sleep(4000);
+                        break;
+                    default:
                         Console.WriteLine("Opción inválida.\n");
-                    break;
+                        break;
                 }
 
             } while (opcion != 0);
         }
 
         // =========================
-        // MÉTODOS DEL USUARIO
+        // MÉTODOS DEL USUARIO DE LA PLATFORMA DE TU CARRERA SV!!!!
         // =========================
 
         static void RegistrarUsuario()
@@ -115,6 +116,7 @@ namespace TuCarreraSV
             if (usuarioRegistrado != null)
             {
                 Console.WriteLine("Ya existe un usuario registrado. Elimínalo antes de registrar uno nuevo.\n");
+                System.Threading.Thread.Sleep(4000);
                 return;
             }
 
@@ -133,6 +135,7 @@ namespace TuCarreraSV
             if (usuarioRegistrado == null)
             {
                 Console.WriteLine("No hay usuario registrado. Registra uno primero.\n");
+                System.Threading.Thread.Sleep(4000);
                 return;
             }
 
@@ -169,6 +172,7 @@ namespace TuCarreraSV
             if (usuarioRegistrado == null)
             {
                 Console.WriteLine("No hay usuario registrado.\n");
+                System.Threading.Thread.Sleep(4000);
             }
             else
             {
@@ -176,17 +180,18 @@ namespace TuCarreraSV
             }
         }
 
-    // =========================
-    // MÉTODOS DEL CONDUCTOR
-    // =========================
+        // =========================
+        // MÉTODOS DEL CONDUCTOR
+        // =========================
 
-    static void RegistrarConductor()
+        static void RegistrarConductor()
         {
             // Solo puede existir un conductor activo
             if (conductorActivo != null)
             {
                 Console.WriteLine("Ya existe un conductor activo.");
                 Console.WriteLine("Debes eliminarlo antes de registrar otro.");
+                System.Threading.Thread.Sleep(4000);
                 return;
             }
 
@@ -243,9 +248,16 @@ namespace TuCarreraSV
             Console.WriteLine("Edad: " + conductorActivo.Edad);
 
             Console.WriteLine("Licencia: " + conductorActivo.Licencia);
-
-            Console.WriteLine("Estado de licencia: " + conductorActivo.EstadoLicencia);
+            if (conductorActivo.EstadoLicencia)
+            {
+                Console.WriteLine("Estado de la licencia: Válida");
+            }
+            else
+            {
+                Console.WriteLine("Estado de la licencia: No válida");
+            }
         }
+
 
         // =========================
         // MÉTODOS DE VEHÍCULOS
@@ -487,10 +499,15 @@ namespace TuCarreraSV
                     Console.WriteLine("- " + ciudad.Nombre);
                 }
             }
+            System.Threading.Thread.Sleep(10000);
         }
     }
 
-    // Clases de dominio
+
+
+
+
+    // Clases 
     class Usuario
     {
         public string? Correo { get; set; }
@@ -503,15 +520,15 @@ namespace TuCarreraSV
         public int Edad { get; set; }
         public string? Licencia { get; set; }
         public bool EstadoLicencia { get; set; }
-        
+
         // Un conductor puede registrar varios vehículos
         public List<Vehiculo> Vehiculos { get; set; }
             = new List<Vehiculo>();
 
-        // Solo no de los vehículos puede estar asignado
+        // Solo uno de los vehículos puede estar asignado
         public Vehiculo? VehiculoAsignado { get; set; }
 
-        // Ciudades donde este conductor puede operar
+        // Ciudades donde este conductor puede operar, solo puede operar en esas ciudades
         public List<Ciudad> Ciudades { get; set; }
             = new List<Ciudad>();
     }
