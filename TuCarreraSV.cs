@@ -5,7 +5,6 @@ namespace TuCarreraSV
 {
     class Program
     {
-        // Usuario registrado como variable global
         static Usuario? usuarioRegistrado = null;
 
         // Solo puede existir un conductor activo
@@ -107,9 +106,9 @@ namespace TuCarreraSV
             } while (opcion != 0);
         }
 
-        // =========================
-        // MÉTODOS DEL USUARIO DE LA PLATFORMA DE TU CARRERA SV!!!!
-        // =========================
+        /* ========================================================
+           MÉTODOS DEL USUARIO DE LA PLATFORMA DE TU CARRERA SV!!!!
+           =========================================================*/
 
         static void RegistrarUsuario()
         {
